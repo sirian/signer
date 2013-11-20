@@ -19,7 +19,7 @@ class Encoder
         $data = [
             'data' => $data->getData(),
             'intention' => $data->getIntention(),
-            'expires' =>  $data->getExpires() ? $data->getExpires()->getTimestamp() : 0
+            'expires' =>  $data->getExpires() ? $data->getExpires()->getTimestamp() : null
         ];
 
         $data = base64_encode(json_encode($data));
