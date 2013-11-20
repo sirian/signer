@@ -1,0 +1,8 @@
+{
+    "name": "sirian/signer",
+    "type": "library",
+    "description": "Library to create signed data",
+    "autoload": {
+        "psr-0": { "": "src/" }
+    }
+}
