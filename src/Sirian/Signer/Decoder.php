@@ -17,7 +17,7 @@ class Decoder
     public function decode($string, $intention)
     {
         if (false === strpos($string, '.')) {
-            throw new InvalidSignedStringException();
+            throw new InvalidSignedStringException(); 
         }
 
         list($hash, $data) = explode('.', $string);
@@ -29,12 +29,16 @@ class Decoder
         $decoded = json_decode(base64_decode($data), true);
 
         if (!isset($decoded['intention']) || $decoded['intention'] !== $intention) {
-            throw new InvalidSignException($intention, $decoded['intention']);
+            $exception = new InvalidIntentionException($intention, $decoded['intention']);
+            $exception->setData($decoded);
+            throw $exception;
         }
 
         $now = new \DateTime();
         if (null !== $decoded['expires'] && $decoded['expires'] < $now->getTimestamp()) {
-            throw new ExpiredException();
+            $exception = new ExpiredException();
+            $exception->setData($decoded);
+            throw $exception;
         }
 
         $data = new Data();

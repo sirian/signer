@@ -6,11 +6,13 @@ class InvalidIntentionException extends SignException
 {
     private $expectedIntention;
     private $givenIntention;
+    private $data;
 
-    public function __construct($expectedIntention, $givenIntention)
+    public function __construct($expectedIntention, $givenIntention, $data = [])
     {
         $this->expectedIntention = $expectedIntention;
         $this->givenIntention = $givenIntention;
+        $this->data = $data;
     }
 
     public function getExpectedIntention()
@@ -21,5 +23,17 @@ class InvalidIntentionException extends SignException
     public function getGivenIntention()
     {
         return $this->givenIntention;
+    }
+
+    public function getData()
+    {
+        return $this->data;
+    }
+
+    public function setData($data)
+    {
+        $this->data = $data;
+
+        return $this;
     }
 }
