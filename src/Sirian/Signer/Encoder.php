@@ -22,9 +22,11 @@ class Encoder
             'expires' =>  $data->getExpires() ? $data->getExpires()->getTimestamp() : null
         ];
 
-        $data = base64_encode(json_encode($data));
+        $version = 1;
+        $data = base64_encode(gzencode(json_encode($data, JSON_UNESCAPED_UNICODE)));
+        $data = rtrim(strtr($data, '+/', '-_'), '=');
 
-        return sprintf('%s.%s', $this->signer->getSign($data), $data);
+        return sprintf('2.%s.%s', $version, $this->signer->getSign($data), $data);
     }
 
     public function getSigner()

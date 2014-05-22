@@ -16,17 +16,32 @@ class Decoder
 
     public function decode($string, $intention)
     {
-        if (false === strpos($string, '.')) {
-            throw new InvalidSignedStringException(); 
+        $dotCount = substr_count($string, '.');
+        if ($dotCount == 1) {
+            $string = '1.' . $string;
+        } elseif ($dotCount != 2) {
+            throw new InvalidSignedStringException();
         }
 
-        list($hash, $data) = explode('.', $string);
+
+        list($version, $hash, $data) = explode('.', $string, 3);
         $expectedHash = $this->signer->getSign($data);
         if ($hash !== $expectedHash) {
             throw new InvalidSignException($expectedHash, $hash);
         }
 
-        $decoded = json_decode(base64_decode($data), true);
+        switch ($version) {
+            case 1:
+                $decoded = json_decode(base64_decode($data), true);
+                break;
+            case 2:
+                $data = str_pad(strtr($data, '-_', '+/'), strlen($data) % 4, '=', STR_PAD_RIGHT);
+                $decoded = json_decode(gzdecode(base64_decode($data)), true);
+                break;
+            default:
+                throw new \InvalidArgumentException();
+        }
+
 
         if (!isset($decoded['intention']) || $decoded['intention'] !== $intention) {
             $exception = new InvalidIntentionException($intention, $decoded['intention']);
