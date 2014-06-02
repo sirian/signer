@@ -2,7 +2,7 @@
 
 namespace Sirian\Signer;
 
-class InvalidSignedStringException extends SignException
+class InvalidSignedStringException extends SignerException
 {
 
 }

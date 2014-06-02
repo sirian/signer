@@ -2,7 +2,7 @@
 
 namespace Sirian\Signer;
 
-class InvalidIntentionException extends SignException
+class InvalidIntentionException extends SignerException
 {
     private $expectedIntention;
     private $givenIntention;

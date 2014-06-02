@@ -2,7 +2,7 @@
 
 namespace Sirian\Signer;
 
-class ExpiredException extends SignException
+class ExpiredException extends SignerException
 {
     private $data;
 
