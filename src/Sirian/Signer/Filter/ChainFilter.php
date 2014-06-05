@@ -4,7 +4,7 @@ namespace Sirian\Signer\Filter;
 
 use Sirian\Signer\InvalidSignedStringException;
 
-class FilterChain implements FilterInterface
+class ChainFilter implements FilterInterface
 {
     private $registry;
     private $encodeFilterChain;
